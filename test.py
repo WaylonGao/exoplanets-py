@@ -1,6 +1,7 @@
 import lightkurve as lk
 import numpy as np
 import csv
+import matplotlib.pyplot as plt
 
 
 
@@ -91,7 +92,36 @@ def fetch_all_kepler_data(kepler_id):
             for f in flux:
                 # Convert the flux value to a float and write to CSV
                 w.writerow([f.value])
-                
+
+
+def plot_kepler_data(csv_file):
+    # Read the data from the CSV file
+    flux_values = []
+    with open(csv_file, mode='r') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            flux_values.append(float(row[0]))
+    
+    # Plot the data using matplotlib
+    plt.figure(figsize=(10, 6))
+    plt.plot(flux_values, label='Flux')
+    plt.xlabel('Data Point Index')
+    plt.ylabel('Flux Value')
+    plt.title('Kepler Flux Data')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
 # Example usage
-kepler_id = 11904151  # Replace with your Kepler Object ID
-fetch_all_kepler_data(kepler_id)
+#kepler_id = 11446443  # Replace with your Kepler Object ID
+
+#fetch_all_kepler_data(kepler_id)
+
+
+#plot_kepler_data('keplerData.csv')
+
+pixelfile = lk.search_targetpixelfile("11446443", quarter=16).table
+#pixelfile.plot(frame=1)
+#plt.show()
+print(pixelfile)
+
